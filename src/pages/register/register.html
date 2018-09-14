@@ -1,0 +1,40 @@
+<!--
+  Generated template for the RegisterPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>注册</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <div class="logo">
+      <img src="assets/imgs/logo.png" alt="">
+    </div>
+    <div class="area" *ngIf="!isOldUser">
+      <ion-item>
+        <ion-label floating>手机号</ion-label>
+        <ion-input type="number" [(ngModel)]="mobile" (input)="judgeMobile()"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>密码</ion-label>
+        <ion-input type="password" [(ngModel)]="pwd" (input)="judgeMobile()"></ion-input>
+      </ion-item>
+      <div class="valid-code">
+        <ion-item>
+          <ion-label floating>验证码</ion-label>
+          <ion-input type="number" [(ngModel)]="code" (input)="judgeMobile()"></ion-input>
+        </ion-item>
+        <button ion-button (click)="getSmsCode()" clear [disabled]="codeMsg !='获取验证码'">{{codeMsg}}</button>
+      </div>
+      <button (click)="toUse()" [disabled]="!toNext" [ngClass]="{'toNext':toNext}">注 册</button>
+      <em [navPush]="'LoginPage'">已有账号，直接登录</em>
+
+    </div>
+</ion-content>

@@ -1,0 +1,50 @@
+<!--
+  Generated template for the CompanyPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>企业认证</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="businessman">
+    <ion-list>
+      <ion-item>
+        <ion-label color="primary">企业名称</ion-label>
+        <ion-input placeholder="请输入您的企业名称" [(ngModel)]="company.companyName" [disabled]="hasCompany"></ion-input>
+      </ion-item>
+      <ion-item>
+          <ion-label color="primary">法人姓名</ion-label>
+          <ion-input placeholder="请输入您的企业法人姓名" [(ngModel)]="company.companyCEO" [disabled]="hasCompany"></ion-input>
+        </ion-item>
+      <!-- <ion-item>
+        <ion-label color="primary" fixed></ion-label>
+        <ion-input  placeholder="请输入您的身份证件号" [(ngModel)]="company.cardId"></ion-input>
+      </ion-item> -->
+    </ion-list>
+    <div class="valid">
+      <p>上传营业执照</p>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-12 (click)="hasCompany?'': selectPhotoType(1)">
+            <img *ngIf="company.companyCard != undefined" [src]="company.companyCard" alt="">
+            <img *ngIf="company.companyCard == undefined" src="assets/imgs/yingye.png" alt="">
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+    <div class="businessmanButton" *ngIf="!hasCompany">
+      <button ion-button block clear color="energized" (click)="nextStep()">提 交</button>
+    </div>
+
+    <div class="review">
+      <img *ngIf="company.status === '1'" src="http://bmob-cdn-20712.b0.upaiyun.com/2018/09/02/c9cc3a3640425dd280454c1fb373a071.png" alt="">
+      <img *ngIf="company.status === '0'" src="http://bmob-cdn-20712.b0.upaiyun.com/2018/09/02/a81bc6c04050dcac8051eee156808fdf.png" alt="">
+    </div>
+  </ion-content>

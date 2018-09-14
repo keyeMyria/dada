@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-navbar>
+    <!-- <ion-title>首页</ion-title> -->
+    <button ion-button icon-start clear item-end style="height:1.5em;color: #333;" (click)="getLocation()">
+      <ion-icon name="pin"></ion-icon>
+      {{addressInfo.city}}{{addressInfo.district}}{{addressInfo.locationDescribe}}
+      <ion-icon name="md-refresh"></ion-icon>
+    </button>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+  <div id="el"></div>
+  <div *ngIf="orderList.length ===0" class="kongImg">
+    <img src="assets/imgs/empty.png" alt="">
+    <p>暂无救援订单~</p>
+  </div>
+  <ion-card *ngFor="let item of orderList">
+    <ion-list>
+      <ion-item class="order">
+        <ion-avatar item-start>
+          <img [src]="item.userPic">
+        </ion-avatar>
+        <h2>{{item.nickname}}</h2>
+        <p>{{item.createdAt}}</p>
+        <p class="time">{{item.amount * 0.9}}元</p>
+      </ion-item>
+    </ion-list>
+
+    <div class="address">
+      <img src="http://bmob-cdn-20712.b0.upaiyun.com/2018/08/25/3cbe168e40d28ffd80202cf2aacb19a9.png" alt="">
+      <span>{{item.addressFrom}}</span>
+    </div>
+    <div class="address" style="padding-bottom:0;">
+      <img src="http://bmob-cdn-20712.b0.upaiyun.com/2018/08/25/9869ee6340320453801bb9761856a235.png" alt="">
+      <span>{{item.addressTo}}</span>
+    </div>
+
+    <ion-item>
+      <span item-start>{{item.durtion}}</span>
+      <span item-start>({{item.distance}})</span>
+      <button ion-button icon-start clear item-end (click)="toPage(item)">
+        <ion-icon name="navigate"></ion-icon>
+        查看地图
+      </button>
+    </ion-item>
+    <div class="get-order">
+      <button ion-button class="btn" (click)="toAcceptOrder(item)" *ngIf="item.status === '0'" >抢 单</button>
+      <button ion-button class="btn" (click)="toAcceptOrder(item)" *ngIf="item.status === '1'">立即救援</button>
+      <button ion-button class="btn" (click)="toAcceptOrder(item)" *ngIf="item.status === '2'">完成救援</button>
+      <!-- <button ion-button class="btn" (click)="toAcceptOrder(item)" *ngIf="item.status === '3'">完成救援</button> -->
+    </div>
+
+  </ion-card>
+
+  <dialog-tip [title]="'提示'" [subtitle]="'您还未认证成为救援师傅，完成认证，开始接单之旅吧'" (fromChild)="confirm($event)" *ngIf="curStatus ==='0' && isCompany !=='1'"></dialog-tip>
+  <!-- <dialog-tip [title]="'提示'" [subtitle]="'是否确认完成救援'" (fromChild)="over($event)" *ngIf="overStatus ==='3'"></dialog-tip> -->
+</ion-content>

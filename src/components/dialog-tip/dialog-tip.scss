@@ -1,0 +1,93 @@
+// dialog-tip {
+  .tip {
+    height: inherit;
+    overflow: hidden;
+    .backdrop {
+      position: fixed;
+      z-index: 998;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: rgba(153, 153, 153, 0.8);
+      transition-duration: 400ms;
+    }
+    .tiparea {
+      border-radius: 5px;
+      z-index: 999;
+      background: #ffffff;
+      position: fixed;
+      // width: 25rem;
+      top: 30%;
+      left: 10%;
+      margin: 0 auto;
+      right: 10%;
+      .bank {
+        height: 7.4rem;
+        background: #f2f2f2;
+        .row {
+          padding: 1.4rem 0 0.6rem 0;
+          .col {
+            text-align: center;
+            img {
+              width: 80%;
+            }
+          }
+        }
+        .banktip {
+          text-align: center;
+        }
+      }
+      .content {
+        height: 20rem;
+        text-align: center;
+        position: relative;
+        .contentarea {
+          position: absolute;
+          top: 18%;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          h3 {
+            color: #373f52;
+            font-size: 1.6em;
+            font-weight: bold;
+            margin-top: 0;
+          }
+          p {
+            color: #5f6575;
+            font-size: 1.2em;
+            margin-top: 0.6rem;
+          }
+        }
+
+        .row {
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+          height: 5rem;
+          line-height: 5rem;
+          border-top: 1px solid #f2f2f2;
+          // background: #f76754;
+          .col {
+            font-size: 1.4em;
+            padding: 0;
+          }
+          .col:first-child {
+            color: #333;
+          }
+          .col:nth-child(2) {
+            background: #f76754;
+            color: #fff;
+          }
+
+        }
+        .col-100{
+            width:100%;
+            background: #f76754;
+            color: #fff !important;
+          }
+      }
+    }
+  }
+// }

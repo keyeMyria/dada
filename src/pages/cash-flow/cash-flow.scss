@@ -1,0 +1,49 @@
+page-cash-flow {
+  .tradeRecorde {
+    .trade-date {
+      height: 36px;
+      background: #faf4e8;
+      padding: 0 16px;
+      line-height: 36px;
+      color: #5f6575;
+      font-size: 1.4rem;
+      span{
+        float: right;
+
+      }
+    }
+    .trade-content {
+      background: #fff;
+      // height: 3.8rem;
+      position: relative;
+      .content {
+        margin: 0 0.8rem 0 0.8rem;
+        padding-top: 0.8rem;
+        height: inherit;
+        border-bottom: 1px solid #f2f2f2;
+      }
+      .trade-row {
+        .trade-col1 {
+          color: #373f52;
+          font-size: 1.4rem;
+          align-self: center;
+        }
+        .trade-col2 {
+          color: #009d78;
+          font-size: 2.4rem;
+          text-align: right;
+        }
+        .add{
+          color: #F76754
+        }
+        .trade-col3 {
+          color: #afb2ba;
+          font-size: 1.5rem;
+        }
+        .trade-col4 {
+          text-align: right;
+        }
+      }
+    }
+  }
+}

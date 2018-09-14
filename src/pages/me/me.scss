@@ -1,0 +1,53 @@
+page-me {
+  ion-content{
+    background-color: #f5f5f5 !important;
+  }
+  .bac-img{
+    height: 120px;
+    width: 100%;
+    background: url('http://bmob-cdn-20712.b0.upaiyun.com/2018/09/02/91da9894407123fc80221475ec31abe4.png') no-repeat center;
+  }
+  .my-card{
+    position: absolute;
+    width: 100%;
+    top: 60px;
+    ion-card-header{
+      border-bottom: 1px solid #eaeaea;
+      padding: 16px;
+      font-size: 1.4rem;
+    }
+    ion-card-content{
+      padding: 0;
+    }
+    .card-top{
+      ion-item{
+        border: 0 !important;
+      }
+    }
+
+  }
+  .my-grid{
+    padding: 0;
+    ion-col{
+      text-align: center;
+      padding:0 0 10px 0;
+      ion-icon{
+        font-size: 2.5em;
+        color: #e44e36;
+      }
+      .img{
+        width: 40px;
+        height: 40px;
+        margin: 0 auto;
+        img{
+          padding: 5px;
+        }
+      }
+    }
+  }
+  .my-car{
+    ion-col{
+      margin-top: 10px;
+    }
+  }
+}

@@ -1,0 +1,43 @@
+page-xing-cheng {
+  ion-content{
+    background-color: #f5f5f5 !important;
+    .xc{
+      background: #fff;
+      padding: 0 16px 20px 16px;
+      margin-bottom: 10px;
+      .time{
+        height: 40px;
+        line-height: 40px;
+        span:nth-child(1){
+          float: left;
+          font-size: 1.2em;
+        }
+        span:nth-child(2){
+          float: right;
+          color: #888;
+        }
+      }
+      .address{
+        padding: 0 0 20px 0;
+        img{
+          width: 10px;
+        }
+        span{
+          padding-left: 10px;
+        }
+      }
+      .status{
+        position: absolute;
+        top: 50px;
+        font-size: 1.4em;
+        right: 16px;
+        .isActing{
+          color: #f76754;
+        }
+        .isOver{
+          color: #888;
+        }
+      }
+    }
+  }
+}

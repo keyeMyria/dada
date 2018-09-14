@@ -1,0 +1,99 @@
+<ion-header>
+    <ion-navbar>
+      <ion-title>
+        我的
+      </ion-title>
+    </ion-navbar>
+  </ion-header>
+
+  <ion-content>
+    <div class="bac-img"></div>
+    <div class="my-card">
+      <ion-card class="card-top">
+        <ion-list>
+          <ion-item>
+            <ion-avatar item-start>
+              <img [src]="pic">
+            </ion-avatar>
+            <h2>{{username}}</h2>
+            <!-- <p>湖南长沙</p> -->
+          </ion-item>
+        </ion-list>
+        <ion-grid class="my-grid">
+          <ion-row>
+            <ion-col col-4 (click)="toPage('XingChengPage')">
+              <div class="img"><img src="assets/imgs/upgrade.png" alt=""></div>
+              <div>行程</div>
+            </ion-col>
+            <ion-col col-4 (click)="toPage('PackPage')">
+              <!-- <ion-icon ios="ios-cash" md="md-cash"></ion-icon> -->
+              <div class="img"> <img src="assets/imgs/pack.png" alt=""></div>
+              <div>钱包</div>
+            </ion-col>
+            <ion-col col-4 (click)="toPage('CashFlowPage')">
+              <!-- <ion-icon ios="ios-list-box" md="md-list-box"></ion-icon> -->
+              <div class="img"><img src="assets/imgs/order.png" alt=""></div>
+              <div>流水</div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+      </ion-card>
+
+      <ion-card class="my-car">
+        <ion-card-header>
+          我的服务
+        </ion-card-header>
+        <ion-card-content>
+          <ion-grid class="my-grid">
+            <ion-row>
+              <ion-col col-4 (click)="toPage('MyCarPage')">
+                <ion-icon ios="ios-car" md="md-car"></ion-icon>
+                <div>我的车辆</div>
+              </ion-col>
+              <ion-col col-4 (click)="toPage('CompanyPage')">
+                <ion-icon ios="ios-bookmarks" md="md-bookmarks"></ion-icon>
+                <div>认证企业</div>
+              </ion-col>
+              <ion-col col-4 (click)="toPage('TestPage')">
+                <ion-icon ios="ios-trophy" md="md-trophy"></ion-icon>
+                <div>推荐有奖</div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+
+      </ion-card>
+      <ion-card class="my-car">
+          <ion-card-header>
+            其它服务
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid class="my-grid">
+              <ion-row>
+                <ion-col col-4 (click)="toPage('FeedBackPage')">
+                  <ion-icon ios="ios-list-box" md="md-list-box"></ion-icon>
+                  <div>反馈&建议</div>
+                </ion-col>
+                <ion-col col-4>
+                  <a style="color: #000;text-decoration: none;" href="tel:18575501087">
+                    <ion-icon ios="ios-chatbubbles" md="md-chatbubbles"></ion-icon>
+                    <div>联系客服</div>
+                  </a>
+                </ion-col>
+                <ion-col col-4 (click)="toPage('SettingPage')">
+                  <ion-icon ios="ios-settings" md="md-settings"></ion-icon>
+                  <div>设置</div>
+                </ion-col>
+                <ion-col col-4>
+                  <ion-icon ios="ios-medical" md="md-medical"></ion-icon>
+                  <div>帮助中心</div>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+
+        </ion-card>
+
+    </div>
+  </ion-content>

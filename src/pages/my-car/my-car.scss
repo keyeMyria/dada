@@ -1,0 +1,49 @@
+page-my-car {
+  ion-content{
+    background-color: #f5f5f5 !important;
+    .card-car{
+      background-color: #fff;
+      margin: 10px;
+      border-radius: 10px;
+      border: 1px solid #f76754;
+      position: relative;
+      .car-name{
+        padding-top: 25px;
+        text-align: center;
+        font-size: 1.4em;
+      }
+      .car-num{
+        color: #666;
+        font-size: 1.2em;
+        text-align: center;
+      }
+      .car-img{
+        text-align: center;
+        padding-top: 5px;
+        img{
+          width: 50%;
+        }
+      }
+      .review{
+        position: absolute;
+        top: 8%;
+        right: 0;
+        text-align: center;
+        img{
+          width: 50%;
+        }
+      }
+      .position{
+        padding: 10px;
+      }
+    }
+    .btn{
+      position: fixed;
+      bottom: 0;
+      background: #f76754;
+      color: #fff;
+      width: 100%;
+      border-radius: 0;
+    }
+  }
+}

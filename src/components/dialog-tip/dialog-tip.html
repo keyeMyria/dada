@@ -1,0 +1,26 @@
+<!-- Generated template for the DialogTipComponent component -->
+<div>
+  <div class="tip">
+    <!--阴影遮罩-->
+    <div class="backdrop"></div>
+    <div class="tiparea">
+      <div class="content">
+        <div class="contentarea">
+            <h3 class="title">{{title}}</h3>
+            <p class="subtitle">{{subtitle}}</p>
+        </div>
+
+        <div class="row">
+          <div class="col" (click)="doSomething(false)">
+            取消
+          </div>
+          <div class="col" (click)="doSomething(true)">
+            确定
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+

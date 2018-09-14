@@ -1,0 +1,78 @@
+<!--
+  Generated template for the AuthenticationPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>车主认证</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="businessman">
+  <ion-list>
+    <ion-item>
+      <ion-label color="primary">车主姓名</ion-label>
+      <ion-input placeholder="请输入车主姓名" [(ngModel)]="user.realName"></ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label color="primary">车主电话</ion-label>
+        <ion-input placeholder="请输入车主电话" [(ngModel)]="user.mobile"></ion-input>
+      </ion-item>
+    <ion-item>
+      <ion-label color="primary" fixed>身份证件号</ion-label>
+      <ion-input  placeholder="请输入您的身份证件号" [(ngModel)]="user.cardId"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" fixed>车牌牌照</ion-label>
+      <ion-input  placeholder="请输入您的车牌牌照" [(ngModel)]="user.carNumber"></ion-input>
+    </ion-item>
+  </ion-list>
+  <div class="valid">
+    <p>上传身份证照片</p>
+    <ion-grid>
+      <ion-row class="cardImg">
+        <ion-col col-6 (click)="selectPhotoType(1)">
+          <img *ngIf="user.cardFoward != undefined" [src]="user.cardFoward" alt="">
+          <img *ngIf="user.cardFoward == undefined" src="assets/imgs/idcard2.png" alt="">
+        </ion-col>
+        <ion-col col-6 (click)="selectPhotoType(2)">
+          <img *ngIf="user.cardBack != undefined" [src]="user.cardBack" alt="">
+          <img *ngIf="user.cardBack == undefined" src="assets/imgs/idcard1.png" alt="">
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <div class="valid">
+    <p>上传行驶证照片</p>
+    <ion-grid>
+      <ion-row class="carImg">
+        <ion-col col-12 (click)="selectPhotoType(3)">
+          <img *ngIf="user.xingshiCard != undefined" [src]="user.xingshiCard" alt="">
+          <img *ngIf="user.xingshiCard == undefined" src="assets/imgs/xingshiz1.png" alt="">
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <div class="valid">
+    <p>上传驾驶证照片</p>
+    <ion-grid>
+      <ion-row>
+        <ion-col col-12 (click)="selectPhotoType(4)">
+          <img *ngIf="user.drivieCard != undefined" [src]="user.drivieCard" alt="">
+          <img *ngIf="user.drivieCard == undefined" src="assets/imgs/jsz1.png" alt="">
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <div class="businessmanButton" >
+    <button ion-button block clear color="energized" (click)="nextStep()">提 交</button>
+  </div>
+</ion-content>

@@ -1,0 +1,29 @@
+page-home {
+  .order{
+    position: relative;
+    .time{
+      position: absolute;
+      top: 0;
+      right: 10px;
+      color: #f76754;
+      font-size: 1.3em;
+    }
+  }
+  .address{
+    padding: 10px 16px 10px 16px;
+    img{
+      width: 10px;
+      display: inline;
+    }
+    span{
+      padding-left: 10px;
+    }
+  }
+  .get-order{
+    text-align: center;
+    .btn{
+      width: 70%;
+      background-color: #f76754;
+    }
+  }
+}
