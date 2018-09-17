@@ -32,7 +32,7 @@ export class OrderList{
   u_objectId:string;
   c_objectId:string;
   phone:string;
-  nickname:string;
+  nickName:string;
   userPic:string;
   amount:number;
   durtion:string;

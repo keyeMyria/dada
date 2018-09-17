@@ -26,7 +26,7 @@ export class MePage {
   ionViewDidEnter(){
     this.bmob.getUserInfo().then((res:any) => {
       this.pic = res.userPic;
-      this.username = !!res.nickname? res.nickname: res.username;
+      this.username = !!res.nickName? res.nickName: res.username;
     })
   }
   toPage(page){

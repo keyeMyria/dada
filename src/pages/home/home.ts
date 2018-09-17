@@ -199,7 +199,7 @@ export class HomePage {
               tempObj.createdAt = res[i].createdAt;
               tempObj.fromLat = res[i].locationFrom.latitude;
               tempObj.fromLng = res[i].locationFrom.longitude;
-              tempObj.nickname = res[i].user.nickname;
+              tempObj.nickName = res[i].user.nickName;
               tempObj.userPic = res[i].user.userPic;
               tempObj.o_objectId = res[i].objectId;
               tempObj.u_objectId = res[i].user.objectId;

@@ -111,7 +111,7 @@ export class BmobProvider {
         password: data.pwd,
         phone: data.mobile,
         status: data.status,
-        nickname:!!data.nickname?data.nickname:'',
+        nickName:!!data.nickName?data.nickName:'',
         carInfo:!!data.carInfo? data.carInfo: null
       }
       Bmob.User.register(params).then(res => {

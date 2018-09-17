@@ -104,7 +104,7 @@ export class AuthenticationPage {
           pwd: '1111111',
           status: '1',
           carInfo: c,
-          nickname:this.user.realName
+          nickName:this.user.realName
         }
         await this.bmob.register(d).then((r:any) => {
           console.log('注册成功')
