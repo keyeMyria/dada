@@ -13,6 +13,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 export class DialogTipComponent {
   @Input() title: string;
   @Input() subtitle: string;
+  @Input() type: string;
   @Input() btnArr: Array<String>;
   @Output() fromChild = new EventEmitter()
   // @Output() fromChildOver = new EventEmitter()

@@ -54,6 +54,6 @@
 
   </ion-card>
 
-  <dialog-tip [title]="'提示'" [subtitle]="'您还未认证成为救援师傅，完成认证，开始接单之旅吧'" (fromChild)="confirm($event)" *ngIf="curStatus ==='0' && isCompany !=='1'"></dialog-tip>
-  <!-- <dialog-tip [title]="'提示'" [subtitle]="'是否确认完成救援'" (fromChild)="over($event)" *ngIf="overStatus ==='3'"></dialog-tip> -->
+  <dialog-tip [title]="'提示'" [subtitle]="'您还未认证成为救援师傅，完成认证，开始接单吧'" (fromChild)="confirm($event)" *ngIf="curStatus ==='0' && isCompany !=='1'"></dialog-tip>
+  <!-- <dialog-tip [title]="'提示'" [subtitle]="'您有未完成的订单，请及时处理'" (fromChild)="hasOrderCheck($event)" *ngIf="hasOrder"></dialog-tip> -->
 </ion-content>

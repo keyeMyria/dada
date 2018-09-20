@@ -309,10 +309,36 @@ export class BmobProvider {
       query.withinKilometers(key, point, km);  //10指的是公里
       query.include('carUser','userInfo')
       query.include('user','_User')
-      const query1 = query.equalTo('status','==',status)
-      const query2 = query.equalTo("carUser","==", poiID);
-      query.or(query1, query2);
+      // const query1 = query.containedIn("status",['0','1'])
       query.equalTo('status','!=','3')
+      query.equalTo('status','!=','-1')
+      // query.equalTo('status','==',status)
+      // const query1 =  query.equalTo('status','==','1')
+      // const query2 = query.equalTo("carUser","==", poiID);
+      // query.or(query2);
+      query.find().then(res => {
+        this.debug && console.log(res)
+        let temp = []
+        for(let i =0;i<res.length;i++){
+          if(!!res[i].carUser && !!res[i].carUser.objectId && res[i].carUser.objectId != ''){
+            if(res[i].carUser.objectId != objectId) continue
+          }
+          temp.push(res[i])
+        }
+        resolve(temp)
+      }).catch(err => {
+        this.debug && console.log(err)
+        reject(err)
+      })
+    })
+  }
+  Bmob_QueryOrderByObject(objectId){
+    return new Promise((resolve,reject) => {
+      const pointer = Bmob.Pointer('userInfo');
+      const poiID = pointer.set(objectId); //  当前用户的objectId
+      const query = Bmob.Query('Order');
+      query.equalTo('status','==','1')
+      query.equalTo("carUser","==", poiID);
       query.find().then(res => {
         this.debug && console.log(res)
         resolve(res)
@@ -382,6 +408,41 @@ export class BmobProvider {
           type: mime
       }))
     })
+  }
+  sendMudule(item){
+    let modelData = {
+        "touser": item.openid,
+        "template_id": "LTUlbF0gAhCnls9EDZxDspApKqs3AEqQP8T7mVtd2Cw",
+        "page": "pages/orderDetail/main?objectId="+ item.o_objectId+"&lat="+item.fromLat+"&lng="+item.fromLng,
+        "form_id":item.formId,
+        "data": {
+            "keyword1": {
+                "value": "救援师傅已接单",
+                "color": "#173177"
+            },
+            "keyword2": {
+                "value": item.o_objectId
+            },
+            "keyword3": {
+                "value": item.addressFromDetail
+            },
+            "keyword4": {
+                "value": item.addressToDetail
+            },
+            "keyword5": {
+              "value": item.createdAt
+            },
+            "keyword6": {
+              "value": item.amount
+            }
+        }
+        ,"emphasis_keyword": ""
+    }
 
+    Bmob.sendWeAppMessage(modelData).then(function (response) {
+        console.log(response);
+    }).catch(function (error) {
+        console.log(error);
+    });
   }
 }

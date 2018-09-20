@@ -20,6 +20,8 @@ export class HomePage {
   username = "";
   isCompany = "";
   timer:any;
+  hasOrder: Boolean = false;
+  ordering: any;
   constructor(public navCtrl: NavController,
     public util: UtilsProvider,
     public bomb: BmobProvider,
@@ -31,6 +33,8 @@ export class HomePage {
         this.getLocation()
       }
     })
+    console.log('................')
+    // bomb.sendMudule(10010)
   }
   // ionViewDidLoad(){
   //   this.bomb.Bmob_GetUserObjectId().then((res: any) => {
@@ -90,11 +94,10 @@ export class HomePage {
       this.bomb.Bmob_GetInfoByObjectId('Order',item.o_objectId).then(async(res: any) => {
         if(res.status === '0'){
           //  可以抢单,更改订单状态，以及carUser字段
-
           let temp = this.bomb.Bmob_CreatePoint('userInfo',objectId)
           this.bomb.Bmob_Update('Order',item.o_objectId,{carUser: temp,status:'1'}).then(t => {
-            //  抢单成功，弹出提示框
-
+            //  抢单成功，弹出提示框，提示客户该订单有师傅接单了
+            this.bomb.sendMudule(item)
           }).catch(err => {
             this.util.showToast('系统错误，抢单失败，请重新抢单')
           })
@@ -168,10 +171,6 @@ export class HomePage {
         this.username = da.username
         this.isCompany = da.isCompany
       })
-      // let u =  this.bomb.Bmob_CreatePoint('_User',this.objectId)
-      // this.bomb.Bomb_Search('company',{'user':u}).then(c => {
-
-      // })
     })
   }
   /**
@@ -208,6 +207,8 @@ export class HomePage {
               tempObj.toLat = res[i].toLat;
               tempObj.toLng = res[i].toLng;
               tempObj.updatedAt = res[i].updatedAt;
+              tempObj.formId = res[i].user.formId;
+              tempObj.openid = res[i].user.openid;
               tempObj.durtion = d.durtion;
               tempObj.distance = d.distance;
             })
@@ -272,5 +273,49 @@ export class HomePage {
       console.log(res)
     })
   }
+  //  判断当前用户是否有未完成的订单
+  // judgeHasOrder(){
+  //   this.bomb.Bmob_QueryOrderByObject(this.u_objectId).then(async(res:any) => {
+  //     this.hasOrder = res.length > 0
+  //     if(res.length > 0){
+  //       let tempObj;
+  //       for(let i = 0;i< res.length;i++){
+  //         tempObj = new OrderList()
+  //         await this.bdMap.getDistanceByPoint(this.addressInfo.latitude,this.addressInfo.longitude,res[i].locationFrom.latitude,res[i].locationFrom.longitude,'el').then((d:any) => {
+  //           tempObj.username = res[i].user.username;
+  //           tempObj.addressFrom = res[i].addressFrom;
+  //           tempObj.addressTo = res[i].addressTo;
+  //           tempObj.addressFromDetail = res[i].addressFromDetail;
+  //           tempObj.addressToDetail = res[i].addressToDetail;
+  //           tempObj.amount = res[i].amount;
+  //           tempObj.createdAt = res[i].createdAt;
+  //           tempObj.fromLat = res[i].locationFrom.latitude;
+  //           tempObj.fromLng = res[i].locationFrom.longitude;
+  //           tempObj.nickName = res[i].user.nickName;
+  //           tempObj.userPic = res[i].user.userPic;
+  //           tempObj.o_objectId = res[i].objectId;
+  //           tempObj.u_objectId = res[i].user.objectId;
+  //           tempObj.phone = res[i].user.phone;
+  //           tempObj.status = res[i].status;
+  //           tempObj.toLat = res[i].toLat;
+  //           tempObj.toLng = res[i].toLng;
+  //           tempObj.updatedAt = res[i].updatedAt;
+  //           tempObj.durtion = d.durtion;
+  //           tempObj.distance = d.distance;
+  //         })
+  //         console.log(tempObj)
+  //         this.ordering = tempObj
+  //       }
+  //     }
+  //   })
+  // }
+  // hasOrderCheck(e){
+  //   console.log(e)
+  //   if(e){
+  //     this.navCtrl.push('MapPage',{item: this.ordering})
+  //   }else{
+  //     this.hasOrder = false
+  //   }
+  // }
 
 }

@@ -37,6 +37,8 @@ export class OrderList{
   amount:number;
   durtion:string;
   distance:string;
+  formId:string;
+  openid:string;
 }
 export class ValidUser{
   constructor(){
