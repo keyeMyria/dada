@@ -72,7 +72,8 @@ export class RegisterPage {
       let data = {
         mobile: this.mobile,
         pwd: this.pwd,
-        status: '0'
+        status: '0',
+        // carInfo:
       }
       this.bmob.register(data).then(d =>{
         this.util.showToast('注册成功,请登录')

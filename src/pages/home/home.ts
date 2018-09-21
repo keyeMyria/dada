@@ -27,12 +27,12 @@ export class HomePage {
     public bomb: BmobProvider,
     public bdMap: BaiduMapProvider,
     public platform: Platform) {
-    platform.ready().then(async(readySource) => {
-      if(readySource === 'cordova'){
-        await this.getStatus()
-        this.getLocation()
-      }
-    })
+    // platform.ready().then(async(readySource) => {
+    //   if(readySource === 'cordova'){
+    //     await this.getStatus()
+    //     this.getLocation()
+    //   }
+    // })
     console.log('................')
     // bomb.sendMudule(10010)
   }
@@ -49,9 +49,9 @@ export class HomePage {
     await this.bomb.Bmob_GetUserObjectId().then((res: any) => {
       this.u_objectId = res
     })
-    this.getStatus() // 运行在手机上要注释掉
+    await this.getStatus()
+    await this.getLocation()
     this.getInfo()
-    // this.test()
     this.timer = setInterval(() => {
       this.getInfo()
       this.getLocation()

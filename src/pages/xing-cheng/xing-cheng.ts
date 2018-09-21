@@ -16,6 +16,7 @@ import { BmobProvider } from "../../providers/bmob/bmob"
 })
 export class XingChengPage {
   items = [];
+  status = { '-1':'用户已取消','0':'等待救援','1':'救援中','2':'救援中','3':'救援完成' };
   constructor(public navCtrl: NavController, public navParams: NavParams,public util: UtilsProvider,public bmob: BmobProvider) {
 
   }

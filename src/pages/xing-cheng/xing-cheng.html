@@ -32,8 +32,8 @@
       <span>{{item.addressTo}}</span>
     </div>
     <div class="status">
-      <p class="isActing" *ngIf="item.status === '2'">救援中</p>
-      <p class="isOver" *ngIf="item.status === '3'">救援已完成</p>
+      <p [ngClass]="{'isActing':(item.status === '2' || item.status === '1'),'isOver':(item.status === '-1' || item.status === '3')}" *ngIf="item.status === '2'">{{status[item.status]}}</p>
+      <!-- <p class="isOver" *ngIf="item.status === '3'">救援已完成</p> -->
     </div>
   </div>
   <!-- <ion-list>

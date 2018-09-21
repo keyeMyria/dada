@@ -106,13 +106,15 @@ export class BmobProvider {
    */
   register(data){
     return new Promise((resolve,reject) => {
-      let params = {
+      let params:any = {
         username: data.mobile,
         password: data.pwd,
         phone: data.mobile,
         status: data.status,
         nickName:!!data.nickName?data.nickName:'',
-        carInfo:!!data.carInfo? data.carInfo: null
+      }
+      if(!!data.carInfo){
+        params.carInfo = data.carInfo
       }
       Bmob.User.register(params).then(res => {
         console.log(res)
