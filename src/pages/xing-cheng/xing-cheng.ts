@@ -16,7 +16,7 @@ import { BmobProvider } from "../../providers/bmob/bmob"
 })
 export class XingChengPage {
   items = [];
-  status = { '-1':'用户已取消','0':'等待救援','1':'救援中','2':'救援中','3':'救援完成' };
+  status = { '-1':'用户已取消','0':'等待救援','1':'救援中','2':'救援中','3':'等待用户支付','4':'救援完成' };
   constructor(public navCtrl: NavController, public navParams: NavParams,public util: UtilsProvider,public bmob: BmobProvider) {
 
   }
@@ -40,7 +40,6 @@ export class XingChengPage {
       this.bmob.Bomb_Search('Order',{'carUser':pointId}).then((data:any) => {
         this.items = data;
       })
-
     })
   }
 }

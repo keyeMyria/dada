@@ -28,7 +28,8 @@ export class MyCarPage {
     this.util.startLoading()
     this.bmob.getUserNewInfo().then((obj:any) => {
       let uPoint = this.bmob.Bmob_CreatePoint('_User',obj.objectId);
-      if(!!obj.isCompany && obj.isCompany >=0){
+      if(!!obj.isCompany && obj.isCompany >0){
+        console.log(1111)
         this.bmob.Bmob_IncludeQuery('validUser',{'user':uPoint},{key:'uInfo',value:'userInfo'}).then(async(res:Array<ValidUser>) => {
           res.length > 0 && (this.carInfo = res);
           this.util.stopLoading();
@@ -37,6 +38,8 @@ export class MyCarPage {
           this.util.stopLoading();
         })
       }else{
+        console.log(22)
+        console.log(obj.carInfo.objectId)
         this.bmob.Bmob_IncludeQuery('validUser',{'objectId':obj.carInfo.objectId},{key:'uInfo',value:'userInfo'}).then((res:Array<ValidUser>) => {
           res.length > 0 && (this.carInfo = res)
           this.util.stopLoading();

@@ -21,7 +21,7 @@
   <div class="xc" *ngFor="let item of items">
     <div class="time">
       <span>{{item.updatedAt}}</span>
-      <span>{{item.amount * 0.9}}元</span>
+      <span>{{(item.amount * 0.9).toFixed(0)}}元</span>
     </div>
     <div class="address">
       <img src="http://bmob-cdn-20712.b0.upaiyun.com/2018/08/25/3cbe168e40d28ffd80202cf2aacb19a9.png" alt="">
@@ -32,7 +32,7 @@
       <span>{{item.addressTo}}</span>
     </div>
     <div class="status">
-      <p [ngClass]="{'isActing':(item.status === '2' || item.status === '1'),'isOver':(item.status === '-1' || item.status === '3')}" *ngIf="item.status === '2'">{{status[item.status]}}</p>
+      <p [ngClass]="{'isActing':(item.status === '2' || item.status === '1'),'isOver':(item.status === '-1' || item.status === '3')}">{{status[item.status]}}</p>
       <!-- <p class="isOver" *ngIf="item.status === '3'">救援已完成</p> -->
     </div>
   </div>

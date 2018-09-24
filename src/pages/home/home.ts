@@ -27,34 +27,37 @@ export class HomePage {
     public bomb: BmobProvider,
     public bdMap: BaiduMapProvider,
     public platform: Platform) {
-    // platform.ready().then(async(readySource) => {
-    //   if(readySource === 'cordova'){
+    // platform.ready().then(async() => {
     //     await this.getStatus()
     //     this.getLocation()
-    //   }
     // })
-    console.log('................')
-    // bomb.sendMudule(10010)
   }
-  // ionViewDidLoad(){
-  //   this.bomb.Bmob_GetUserObjectId().then((res: any) => {
-  //     this.u_objectId = res
-  //     console.log(this.u_objectId)
-  //   })
-  // }
-  ionViewDidLeave(){
-    this.timer && clearInterval(this.timer)
-  }
-  async ionViewDidEnter(){
+  async ionViewDidLoad(){
     await this.bomb.Bmob_GetUserObjectId().then((res: any) => {
       this.u_objectId = res
     })
-    await this.getStatus()
-    await this.getLocation()
+    await this.getStatus().then(y => {})
+    await this.getLocation().then(t =>{})
     this.getInfo()
-    this.timer = setInterval(() => {
+    // this.timer = setInterval(() => {
+    //   this.getInfo()
+    //   this.getLocation()
+    // },60000)
+  }
+  ionViewDidLeave(){
+    this.timer && clearInterval(this.timer)
+  }
+  ionViewDidEnter(){
+    console.log('3333333')
+    // await this.bomb.Bmob_GetUserObjectId().then((res: any) => {
+    //   this.u_objectId = res
+    // })
+    // this.getStatus()
+    // await this.getLocation()
+    // this.getInfo()
+    this.timer = setInterval(async () => {
+      await this.getLocation().then(()=> {})
       this.getInfo()
-      this.getLocation()
     },60000)
   }
   test(){
@@ -63,6 +66,9 @@ export class HomePage {
     this.bdMap.getDistanceByPoint(28.242882,113.06146,28.232486,112.969122,'el').then(res => {
       console.log(res)
     })
+  }
+  doRefresh(e){
+    this.getInfo()
   }
   /**
    * 接受订单
@@ -121,41 +127,71 @@ export class HomePage {
       //   item.status = '2';
       //   this.navCtrl.push('MapPage',{item: item})
       // })
-    }else{
-      //  救援完成,提示用户是否确定完成，然后更改状态
-      this.util.showConfirm('提示','是否确认完成救援？',()=> {},()=>{
-        this.bomb.Bmob_Update('Order',item.o_objectId,{status:'3'}).then(res => {
-          this.getInfo()
+    }else if(item.status === '2'){
+      //  根据当前点位置与用户的位置距离比较，大于1公里则提示不能点击，没有到达用户范围
+      this.util.startLoading()
+      this.getLocation().then(data => {
+        this.bdMap.getDistanceByPoint(this.addressInfo.latitude,this.addressInfo.longitude,item.fromLat,item.fromLng,'el').then((tt:any) => {
+          this.util.stopLoading()
+          let d = parseFloat(tt.distance.replace('公里',''))
+          if(d > 1.5){
+            //  超过1公里，不能点击到达救援点
+            this.util.showToastWithCloseButton('未在用户故障点附近，不能点击到达救援点，请到达救援点再操作')
+            return
+          }
+          //  救援完成,提示用户是否确定完成，然后更改状态
+          this.util.showConfirm('提示','是否确认到达救援点？',()=> {},()=>{
+            this.bomb.Bmob_Update('Order',item.o_objectId,{status:'3'}).then(res => {
+              this.getInfo()
+            })
+
+            //  更改救援师傅状态
+            // this.bomb.Bmob_Update('userInfo',objectId,{status:'0'}).then(r => {
+            //   console.log()
+            // })
+            //  添加流水
+          //  let uPoint =  this.bomb.Bmob_CreatePoint('_User',this.objectId)
+          //   let ls ={
+          //     type: 1,
+          //     amount: parseInt((item.amount * 0.9).toFixed(2)),
+          //     user: uPoint,
+          //     status: '0'
+          //   }
+          //   console.log(ls)
+          //   this.bomb.Bomb_Add('bankAccount',ls).then(t => {
+          //     console.log('流水添加成功')
+          //   })
+          })
+        }).catch(err => {
+          alert(JSON.stringify(err))
+          this.util.stopLoading()
         })
-         //  更改救援师傅状态
-        this.bomb.Bmob_Update('userInfo',objectId,{status:'0'}).then(r => {
-          console.log()
-        })
-        //  添加流水
-       let uPoint =  this.bomb.Bmob_CreatePoint('_User',this.objectId)
-        let ls ={
-          type: 1,
-          amount: parseFloat((item.amount * 0.9).toFixed(2)),
-          user: uPoint,
-          status: '0'
-        }
-        console.log(ls)
-        this.bomb.Bomb_Add('bankAccount',ls).then(t => {
-          console.log('流水添加成功')
-        })
+      }).catch(e => {
+        alert(JSON.stringify(e))
+        this.util.showToast('定位失败,请重新定位')
+        this.util.stopLoading()
       })
+
+    }else{
+      //  一般用户完成支付会自动更新车主状态以及更新流水等操作，当信息不同步当时候，手动点击完成
+      //  判断该订单的状态
     }
   }
   /**
    * 获取位置信息
    */
   getLocation(){
-    this.bdMap.getCurrentPosition().then((res:any) => {
-      //  获得定位信息，保存在本地
-      this.util.setItem('address',res)
-      this.addressInfo = res
-      //  获取位置信息成功后，更新userInfo表
-      this.updateUserInfo(res)
+    return new Promise((resolve,reject) => {
+      this.bdMap.getCurrentPosition().then((res:any) => {
+        //  获得定位信息，保存在本地
+        this.util.setItem('address',res)
+        this.addressInfo = res
+        //  获取位置信息成功后，更新userInfo表
+        this.updateUserInfo(res)
+        resolve('success')
+      }).catch(err => {
+        reject(err)
+      })
     })
   }
   /**
@@ -163,13 +199,20 @@ export class HomePage {
    */
   getStatus(){
     //  获取当前用户最新信息
-    this.bomb.getUserInfo().then((res:any) => {
-      console.log(res)
-      this.objectId = res.objectId;// 当前用户objectId
-      this.bomb.Bmob_GetInfoByObjectId('_User',res.objectId).then((da:any) => {
-        this.curStatus = da.status
-        this.username = da.username
-        this.isCompany = da.isCompany
+    return new Promise((resolve,reject) =>{
+      this.bomb.getUserInfo().then((res:any) => {
+        console.log(res)
+        this.objectId = res.objectId;// 当前用户objectId
+        this.bomb.Bmob_GetInfoByObjectId('_User',res.objectId).then((da:any) => {
+          this.curStatus = da.status
+          this.username = da.username
+          this.isCompany = da.isCompany
+          resolve('success')
+        }).catch(error => {
+          reject(error)
+        })
+      }).catch(err =>{
+        reject(err)
       })
     })
   }
@@ -194,7 +237,7 @@ export class HomePage {
               tempObj.addressTo = res[i].addressTo;
               tempObj.addressFromDetail = res[i].addressFromDetail;
               tempObj.addressToDetail = res[i].addressToDetail;
-              tempObj.amount = res[i].amount;
+              tempObj.amount = parseInt((res[i].amount * 0.9).toFixed(2)) ;
               tempObj.createdAt = res[i].createdAt;
               tempObj.fromLat = res[i].locationFrom.latitude;
               tempObj.fromLng = res[i].locationFrom.longitude;
@@ -273,49 +316,4 @@ export class HomePage {
       console.log(res)
     })
   }
-  //  判断当前用户是否有未完成的订单
-  // judgeHasOrder(){
-  //   this.bomb.Bmob_QueryOrderByObject(this.u_objectId).then(async(res:any) => {
-  //     this.hasOrder = res.length > 0
-  //     if(res.length > 0){
-  //       let tempObj;
-  //       for(let i = 0;i< res.length;i++){
-  //         tempObj = new OrderList()
-  //         await this.bdMap.getDistanceByPoint(this.addressInfo.latitude,this.addressInfo.longitude,res[i].locationFrom.latitude,res[i].locationFrom.longitude,'el').then((d:any) => {
-  //           tempObj.username = res[i].user.username;
-  //           tempObj.addressFrom = res[i].addressFrom;
-  //           tempObj.addressTo = res[i].addressTo;
-  //           tempObj.addressFromDetail = res[i].addressFromDetail;
-  //           tempObj.addressToDetail = res[i].addressToDetail;
-  //           tempObj.amount = res[i].amount;
-  //           tempObj.createdAt = res[i].createdAt;
-  //           tempObj.fromLat = res[i].locationFrom.latitude;
-  //           tempObj.fromLng = res[i].locationFrom.longitude;
-  //           tempObj.nickName = res[i].user.nickName;
-  //           tempObj.userPic = res[i].user.userPic;
-  //           tempObj.o_objectId = res[i].objectId;
-  //           tempObj.u_objectId = res[i].user.objectId;
-  //           tempObj.phone = res[i].user.phone;
-  //           tempObj.status = res[i].status;
-  //           tempObj.toLat = res[i].toLat;
-  //           tempObj.toLng = res[i].toLng;
-  //           tempObj.updatedAt = res[i].updatedAt;
-  //           tempObj.durtion = d.durtion;
-  //           tempObj.distance = d.distance;
-  //         })
-  //         console.log(tempObj)
-  //         this.ordering = tempObj
-  //       }
-  //     }
-  //   })
-  // }
-  // hasOrderCheck(e){
-  //   console.log(e)
-  //   if(e){
-  //     this.navCtrl.push('MapPage',{item: this.ordering})
-  //   }else{
-  //     this.hasOrder = false
-  //   }
-  // }
-
 }

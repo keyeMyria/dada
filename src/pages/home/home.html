@@ -11,6 +11,9 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <div id="el"></div>
   <div *ngIf="orderList.length ===0" class="kongImg">
     <img src="assets/imgs/empty.png" alt="">
@@ -24,7 +27,7 @@
         </ion-avatar>
         <h2>{{item.nickName}}</h2>
         <p>{{item.createdAt}}</p>
-        <p class="time">{{item.amount * 0.9}}元</p>
+        <p class="time">{{item.amount}}元</p>
       </ion-item>
     </ion-list>
 
@@ -48,8 +51,8 @@
     <div class="get-order">
       <button ion-button class="btn" (click)="toAcceptOrder(item)" *ngIf="item.status === '0'" >抢 单</button>
       <button ion-button class="btn" (click)="toAcceptOrder(item)" *ngIf="item.status === '1'">立即救援</button>
-      <button ion-button class="btn" (click)="toAcceptOrder(item)" *ngIf="item.status === '2'">完成救援</button>
-      <!-- <button ion-button class="btn" (click)="toAcceptOrder(item)" *ngIf="item.status === '3'">完成救援</button> -->
+      <button ion-button class="btn" (click)="toAcceptOrder(item)" *ngIf="item.status === '2'">到达救援点</button>
+      <button ion-button class="btn" (click)="toAcceptOrder(item)" *ngIf="item.status === '3'">等待用户支付</button>
     </div>
 
   </ion-card>

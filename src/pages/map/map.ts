@@ -157,29 +157,65 @@ export class MapPage {
         ]
       }).present();
 
-    }else{
-      //  救援完成,提示用户是否确定完成，然后更改状态
-      this.util.showConfirm('提示','是否确认完成救援？',()=> {},()=>{
-        this.bomb.Bmob_Update('Order',item.o_objectId,{status:'3'}).then(res => {
-          // this.navCtrl.push('HomePage')
-          this.navCtrl.setRoot('HomePage')
+    }else if(item.status === '2'){
+
+      this.bdMap.getCurrentPosition().then((data:any) => {
+        this.bdMap.getDistanceByPoint(data.latitude,data.longitude,this.orderItem.fromLng,this.orderItem.fromLat,'el').then((tt:any) => {
+          console.log(tt.distance)
+          let d = parseFloat(tt.distance.replace('公里',''))
+          if(d > 1.5){
+            //  超过1公里，不能点击到达救援点
+            this.util.showToastWithCloseButton('未在用户故障点附近，不能点击到达救援点，请到达救援点再操作')
+            return
+          }
+          //  救援完成,提示用户是否确定完成，然后更改状态
+          this.util.showConfirm('提示','是否确认到达救援点？',()=> {},()=>{
+            this.bomb.Bmob_Update('Order',item.o_objectId,{status:'3'}).then(res => {
+              this.orderItem.status = '3';
+            })
+
+            //  更改救援师傅状态
+            // this.bomb.Bmob_Update('userInfo',objectId,{status:'0'}).then(r => {
+            //   console.log()
+            // })
+            //  添加流水
+          //  let uPoint =  this.bomb.Bmob_CreatePoint('_User',this.objectId)
+          //   let ls ={
+          //     type: 1,
+          //     amount: parseInt((item.amount * 0.9).toFixed(2)),
+          //     user: uPoint,
+          //     status: '0'
+          //   }
+          //   console.log(ls)
+          //   this.bomb.Bomb_Add('bankAccount',ls).then(t => {
+          //     console.log('流水添加成功')
+          //   })
+          })
         })
-        //  更改救援师傅状态
-        this.bomb.Bmob_Update('userInfo',objectId,{status:'0'}).then(r => {
-          // console.log()
-        })
-        //  添加流水
-       let uPoint =  this.bomb.Bmob_CreatePoint('_User',this.objectId)
-       let ls ={
-         type: 1,
-         amount: parseFloat((item.amount * 0.9).toFixed(2)),
-         user: uPoint,
-         status: '0'
-       }
-       this.bomb.Bomb_Add('bankAccount',ls).then(t => {
-         console.log('流水添加成功')
-       })
       })
+
+      //  救援完成,提示用户是否确定完成，然后更改状态
+      // this.util.showConfirm('提示','是否确认完成救援？',()=> {},()=>{
+      //   this.bomb.Bmob_Update('Order',item.o_objectId,{status:'3'}).then(res => {
+      //     // this.navCtrl.push('HomePage')
+      //     this.navCtrl.setRoot('HomePage')
+      //   })
+      //   //  更改救援师傅状态
+      //   this.bomb.Bmob_Update('userInfo',objectId,{status:'0'}).then(r => {
+      //     // console.log()
+      //   })
+      //   //  添加流水
+      //  let uPoint =  this.bomb.Bmob_CreatePoint('_User',this.objectId)
+      //  let ls ={
+      //    type: 1,
+      //    amount: parseFloat((item.amount * 0.9).toFixed(2)),
+      //    user: uPoint,
+      //    status: '0'
+      //  }
+      //  this.bomb.Bomb_Add('bankAccount',ls).then(t => {
+      //    console.log('流水添加成功')
+      //  })
+      // })
     }
   }
 
@@ -209,7 +245,9 @@ export class MapPage {
         if(type === 1){
           this.iab.create(createName+'navi?sourceApplication=MyApp&lat='+this.orderItem.fromLat+'&lon='+this.orderItem.fromLng+'&dev=1&style=2');
         }else{
-          this.iab.create(createName+'map/navi?location='+this.orderItem.fromLat,this.orderItem.fromLng+'&src=io.ionic.starter.dadasos')
+          // bdapp://map/direction?region=beijing&origin=39.98871,116.43234&destination=西直门&mode=driving&src=andr.baidu.openAPIdemo
+          // this.iab.create(createName+'map/navi?location='+this.orderItem.fromLat,this.orderItem.fromLng+'&src=io.ionic.starter.dadasos')
+          this.iab.create(createName+'map/direction?origin='+this.orderItem.fromLat,this.orderItem.fromLng+'&mode=driving&src=io.ionic.starter.dadasos')
         }
         //  更改订单状态
       this.bomb.Bmob_Update('Order',this.orderItem.o_objectId,{status:'2'}).then(res => {

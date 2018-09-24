@@ -24,7 +24,7 @@
           </ion-avatar>
           <h2>{{orderItem.nickName}}</h2>
           <p>{{orderItem.createdAt}}</p>
-          <p class="time">{{orderItem.amount * 0.9}}元</p>
+          <p class="time">{{orderItem.amount}}元</p>
         </ion-item>
       </ion-list>
 
@@ -44,7 +44,8 @@
       <div class="get-order">
         <button ion-button class="btn" *ngIf="orderItem.status === '0'" (click)="toAcceptOrder(orderItem)">立即抢单</button>
         <button ion-button class="btn"  *ngIf="orderItem.status === '1'" (click)="toAcceptOrder(orderItem)">立即救援</button>
-        <button ion-button class="btn"  *ngIf="orderItem.status === '2'" (click)="toAcceptOrder(orderItem)">完成救援</button>
+        <button ion-button class="btn"  *ngIf="orderItem.status === '2'" (click)="toAcceptOrder(orderItem)">到达救援点</button>
+        <button ion-button class="btn" (click)="toAcceptOrder(item)" *ngIf="orderItem.status === '3'">等待用户支付</button>
       </div>
       <div class="phone"   *ngIf="orderItem.status > 0">
         <a [href]="'tel:'+orderItem.phone">

@@ -214,6 +214,7 @@ export class BmobProvider {
       for(let key in params){
         query.equalTo(key,"==", params[key])
       }
+      query.order("-updatedAt");
       query.find().then(t => {
         this.debug && console.log(t)
         resolve(t)
@@ -312,7 +313,7 @@ export class BmobProvider {
       query.include('carUser','userInfo')
       query.include('user','_User')
       // const query1 = query.containedIn("status",['0','1'])
-      query.equalTo('status','!=','3')
+      query.equalTo('status','!=','4')
       query.equalTo('status','!=','-1')
       // query.equalTo('status','==',status)
       // const query1 =  query.equalTo('status','==','1')
