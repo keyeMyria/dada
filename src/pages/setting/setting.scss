@@ -1,4 +1,21 @@
 page-setting {
+  .simple-list {
+    .item {
+      padding-left: 0;
+    }
+    .item-inner {
+      padding-left: 16px;
+      font-size: 14px;
+    }
+    .avatar {
+      width: 40px;
+      height: 40px;
+    }
+    .txt {
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.5);
+    }
+  }
   .btn{
     text-align: center;
     button{

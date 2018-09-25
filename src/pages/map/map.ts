@@ -24,6 +24,8 @@ export class MapPage {
   objectId = "";// 当前状态
   u_objectId = "";
   username = "";
+  curLat:Number;
+  curLng:Number;
   constructor(public navCtrl: NavController, public navParams: NavParams, public bdMap: BaiduMapProvider, public util: UtilsProvider,public bomb: BmobProvider,private iab: InAppBrowser,private appAvailability: AppAvailability,public actionSheetCtrl: ActionSheetController,public plt: Platform) {
   }
  async ionViewDidEnter(){
@@ -33,6 +35,8 @@ export class MapPage {
     // this.createMap(113.014288,28.23678,item.fromLng,item.fromLat)
     await this.bdMap.getCurrentPosition().then((res:any) => {
        item && this.createMap(res.longitude,res.latitude,item.fromLng,item.fromLat)
+       this.curLat = res.latitude;
+       this.curLng = res.longitude;
     }).catch(err => {
       alert('定位失败')
     })
@@ -237,7 +241,7 @@ export class MapPage {
         createName = "baidumap://";
       }else if(this.plt.is('android')){
         schemeIntent = 'com.baidu.BaiduMap';
-        createName = 'bdapp://'
+        createName = 'baidumap://'
       }
     }
     this.appAvailability.check(schemeIntent).then((yes: boolean) => {
@@ -245,9 +249,7 @@ export class MapPage {
         if(type === 1){
           this.iab.create(createName+'navi?sourceApplication=MyApp&lat='+this.orderItem.fromLat+'&lon='+this.orderItem.fromLng+'&dev=1&style=2');
         }else{
-          // bdapp://map/direction?region=beijing&origin=39.98871,116.43234&destination=西直门&mode=driving&src=andr.baidu.openAPIdemo
-          // this.iab.create(createName+'map/navi?location='+this.orderItem.fromLat,this.orderItem.fromLng+'&src=io.ionic.starter.dadasos')
-          this.iab.create(createName+'map/direction?origin='+this.orderItem.fromLat,this.orderItem.fromLng+'&mode=driving&src=io.ionic.starter.dadasos')
+          this.iab.create(createName+'map/direction?origin='+this.curLat+','+this.curLng+'&destination='+this.orderItem.fromLat+','+this.orderItem.fromLng+'&mode=driving&src=io.ionic.starter.dadasos')
         }
         //  更改订单状态
       this.bomb.Bmob_Update('Order',this.orderItem.o_objectId,{status:'2'}).then(res => {

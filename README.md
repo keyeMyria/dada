@@ -6,6 +6,11 @@ cordova plugin add jmessage-phonegap-plugin --variable APP_KEY=c49b12d82b7e58b7c
 ```
 JKS 密钥库使用专用格式。建议使用 "keytool -importkeystore -srckeystore dadasos.keystore -destkeystore dadasos.keystore -deststoretype pkcs12" 迁移到行业标准格式 PKCS12。
 
+进入到 .android 文件中，输入如下指令即可获取
+发布版SHA1：在cmd下  keytool -list -v -keystore /Users/liwenhong/car-help/dada/dadasos.keystore 
+开发版SHA1：在cmd下  keytool -list -v -keystore debug.keystore
+
+
 ## 安卓打包
 ```
 ionic cordova build android --prod --release

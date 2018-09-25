@@ -10,7 +10,6 @@ import Bmob from "hydrogen-js-sdk";
 export class BmobProvider {
   private debug:Boolean = true;
   constructor() {
-    console.log('Hello BmobProvider Provider');
     //  初始化bmob
     Bmob.initialize('1245fbae9dd53f523ac14b293ee5dc60', '590809d4a7db3777c5647c2f8f17fd88')
   }
@@ -29,8 +28,10 @@ export class BmobProvider {
     return new Promise((resolve,reject) => {
       this.getUserInfo().then((res:any) => {
         this.Bmob_GetInfoByObjectId('_User',res.objectId).then((da:any) => {
+          console.log(da)
           resolve(da)
         }).catch(err => {
+          console.log(err)
           reject(err)
         })
       })
@@ -141,11 +142,16 @@ export class BmobProvider {
   /**
    * 更新userInfo表
    * @param params 更新参数
-   * @param type 类型，1:新增，2:更新
    */
-  updateUserInfo(params,type){
+  updateUserInfo(params){
     return new Promise((resolve,reject) => {
-
+      Bmob.User.update(params).then(result => {
+        console.log(result)
+        resolve(result)
+      }).catch(err => {
+        console.log(err)
+        reject(err)
+      })
     })
   }
   /**

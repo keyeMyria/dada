@@ -12,31 +12,34 @@
 
 </ion-header>
 
-
 <ion-content>
-  <ion-list>
-    <ion-item>
-      <ion-icon name="leaf" item-start></ion-icon>
-      修改头像
-      <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-end></ion-icon>
-    </ion-item>
-    <ion-item>
-      <ion-icon name="leaf" item-start></ion-icon>
-      修改用户名
-      <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-end></ion-icon>
-    </ion-item>
-    <ion-item>
-      <ion-icon name="leaf" item-start></ion-icon>
-      设置接单范围
-      <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-end></ion-icon>
-    </ion-item>
-    <ion-item>
-      <ion-icon name="leaf" item-start></ion-icon>
-      关于
-      <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-end></ion-icon>
-    </ion-item>
-  </ion-list>
+  <div class="main">
+    <ion-list class="simple-list">
+      <!-- <button ion-item (click)="presentActionSheet()">
+        <ion-label>修改头像</ion-label>
+        <div item-end>
+          <img class="avatar" [src]="userInfo.userPic">
+        </div>
+      </button> -->
+      <!-- <button ion-item (click)="showPrompt()">
+        <ion-label>修改用户名</ion-label>
+        <div class="txt" item-end>
+          {{userInfo.nickName}}
+        </div>
+      </button> -->
+      <button ion-item (click)="showRadio()" >
+        <ion-label>接单范围</ion-label>
+        <div class="txt" item-end>
+          {{jdFw}}公里
+        </div>
+      </button>
+      <button ion-item (click)="toPage('AboutPage',2)" >
+        <ion-label>关于</ion-label>
+      </button>
+    </ion-list>
+  </div>
   <div  class="btn">
     <button ion-button (click)="toLogout()">退出登录</button>
   </div>
+
 </ion-content>

@@ -96,7 +96,7 @@
     <plugin name="cordova-plugin-camera" spec="^4.0.3" />
     <plugin name="cordova-plugin-appavailability" spec="^0.4.2" />
     <plugin name="cordova-plugin-inappbrowser" spec="^3.0.0" />
+    <allow-navigation href="http://192.168.0.106:8101" />
     <engine name="ios" spec="~4.5.5" />
     <engine name="android" spec="7.0.0" />
-    <allow-navigation href="http://192.168.0.106:8101" />
 </widget>

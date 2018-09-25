@@ -69,6 +69,7 @@ export class HomePage {
   }
   doRefresh(e){
     this.getInfo()
+    e.complete();
   }
   /**
    * 接受订单

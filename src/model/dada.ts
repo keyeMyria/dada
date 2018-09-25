@@ -1,7 +1,7 @@
 export class addressInfo{
   constructor(){
-    // this.latitude = 28.23678;
-    // this.longitude = 113.014288
+    this.latitude = 28.23678;
+    this.longitude = 113.014288
     this.city = '长沙市'
   }
   province:string;
