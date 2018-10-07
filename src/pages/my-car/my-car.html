@@ -30,12 +30,12 @@
         <ion-col col-6>当前位置：</ion-col>
       </ion-row>
     </ion-grid> -->
-    <div class="position" style="padding-bottom:0;">当前状态：{{item.uInfo.status === '0'?'空闲中':'接单中'}}</div>
-    <div class="position" *ngIf="!!item.uInfo.city">当前位置：{{item.uInfo.province}}{{item.uInfo.city}}{{item.uInfo.district}}{{item.uInfo.street_number}}</div>
-    <div class="position" *ngIf="item.uInfo.city == undefined || item.uInfo.city == ''">当前位置：暂无位置信息</div>
+    <div class="position" style="padding-bottom:0;" *ngIf="!!item.uInfo">当前状态：{{item.uInfo.status === '0'?'空闲中':'接单中'}}</div>
+    <div class="position" *ngIf="!!item.uInfo && !!item.uInfo.city">当前位置：{{item.uInfo.province}}{{item.uInfo.city}}{{item.uInfo.district}}{{item.uInfo.street_number}}</div>
+    <!-- <div class="position" *ngIf="item.uInfo == undefined || item.uInfo.city == ''">当前位置：暂无位置信息</div> -->
     <div class="review">
-      <img *ngIf="item.status === '1'" src="http://bmob-cdn-20712.b0.upaiyun.com/2018/09/02/c9cc3a3640425dd280454c1fb373a071.png" alt="">
-      <img *ngIf="item.status === '0'" src="http://bmob-cdn-20712.b0.upaiyun.com/2018/09/02/a81bc6c04050dcac8051eee156808fdf.png" alt="">
+      <img *ngIf="item.status === '2'" src="http://bmob-cdn-20712.b0.upaiyun.com/2018/09/02/c9cc3a3640425dd280454c1fb373a071.png" alt="">
+      <img *ngIf="item.status === '0' || item.status === '1'" src="http://bmob-cdn-20712.b0.upaiyun.com/2018/09/02/a81bc6c04050dcac8051eee156808fdf.png" alt="">
     </div>
   </div>
   <button ion-button class="btn" clear [navPush]="'AuthenticationPage'">+新增车辆</button>

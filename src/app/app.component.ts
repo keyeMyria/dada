@@ -14,7 +14,9 @@ export class MyApp {
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public bmob: BmobProvider) {
     platform.ready().then((readySource) => {
       statusBar.styleDefault();
-      splashScreen.hide();
+      setTimeout(() => {
+        splashScreen.hide();
+      }, 1000)
       this.initApp()
     });
   }

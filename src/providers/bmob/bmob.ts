@@ -126,7 +126,8 @@ export class BmobProvider {
           username: data.mobile,
           status: '0',
           type: '2',
-          user: poiID
+          user: poiID,
+          nickName:!!data.realName?data.realName:''
         }
         this.Bomb_Add('userInfo', da).then(t => {
           resolve(res)

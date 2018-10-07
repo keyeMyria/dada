@@ -162,64 +162,33 @@ export class MapPage {
       }).present();
 
     }else if(item.status === '2'){
-
+      this.util.startLoading()
       this.bdMap.getCurrentPosition().then((data:any) => {
-        this.bdMap.getDistanceByPoint(data.latitude,data.longitude,this.orderItem.fromLng,this.orderItem.fromLat,'el').then((tt:any) => {
-          console.log(tt.distance)
-          let d = parseFloat(tt.distance.replace('公里',''))
-          if(d > 1.5){
-            //  超过1公里，不能点击到达救援点
+        this.bdMap.getDistanceByPoint(data.latitude,data.longitude,this.orderItem.fromLat,this.orderItem.fromLng,'el').then((tt:any) => {
+          let d = tt.distance
+          if(d.indexOf('公里')>=0){
             this.util.showToastWithCloseButton('未在用户故障点附近，不能点击到达救援点，请到达救援点再操作')
+            this.util.stopLoading()
             return
           }
+          d = (parseFloat(d.replace('米',''))/1000).toFixed(2)
+          if(d > 500){
+            //  超过500米，不能点击到达救援点
+            this.util.showToastWithCloseButton('未在用户故障点附近，不能点击到达救援点，请到达救援点再操作')
+            this.util.stopLoading()
+            return
+          }
+          this.util.stopLoading()
           //  救援完成,提示用户是否确定完成，然后更改状态
           this.util.showConfirm('提示','是否确认到达救援点？',()=> {},()=>{
             this.bomb.Bmob_Update('Order',item.o_objectId,{status:'3'}).then(res => {
               this.orderItem.status = '3';
             })
-
-            //  更改救援师傅状态
-            // this.bomb.Bmob_Update('userInfo',objectId,{status:'0'}).then(r => {
-            //   console.log()
-            // })
-            //  添加流水
-          //  let uPoint =  this.bomb.Bmob_CreatePoint('_User',this.objectId)
-          //   let ls ={
-          //     type: 1,
-          //     amount: parseInt((item.amount * 0.9).toFixed(2)),
-          //     user: uPoint,
-          //     status: '0'
-          //   }
-          //   console.log(ls)
-          //   this.bomb.Bomb_Add('bankAccount',ls).then(t => {
-          //     console.log('流水添加成功')
-          //   })
           })
+        }).catch(j => {
+          this.util.stopLoading()
         })
       })
-
-      //  救援完成,提示用户是否确定完成，然后更改状态
-      // this.util.showConfirm('提示','是否确认完成救援？',()=> {},()=>{
-      //   this.bomb.Bmob_Update('Order',item.o_objectId,{status:'3'}).then(res => {
-      //     // this.navCtrl.push('HomePage')
-      //     this.navCtrl.setRoot('HomePage')
-      //   })
-      //   //  更改救援师傅状态
-      //   this.bomb.Bmob_Update('userInfo',objectId,{status:'0'}).then(r => {
-      //     // console.log()
-      //   })
-      //   //  添加流水
-      //  let uPoint =  this.bomb.Bmob_CreatePoint('_User',this.objectId)
-      //  let ls ={
-      //    type: 1,
-      //    amount: parseFloat((item.amount * 0.9).toFixed(2)),
-      //    user: uPoint,
-      //    status: '0'
-      //  }
-      //  this.bomb.Bomb_Add('bankAccount',ls).then(t => {
-      //    console.log('流水添加成功')
-      //  })
-      // })
     }
   }
 
@@ -241,15 +210,15 @@ export class MapPage {
         createName = "baidumap://";
       }else if(this.plt.is('android')){
         schemeIntent = 'com.baidu.BaiduMap';
-        createName = 'baidumap://'
+        createName = 'bdapp://'
       }
     }
     this.appAvailability.check(schemeIntent).then((yes: boolean) => {
       // this.util.stopLoading();
         if(type === 1){
-          this.iab.create(createName+'navi?sourceApplication=MyApp&lat='+this.orderItem.fromLat+'&lon='+this.orderItem.fromLng+'&dev=1&style=2');
+          this.iab.create(createName+'navi?sourceApplication=dada&lat='+this.orderItem.fromLat+'&lon='+this.orderItem.fromLng+'&dev=1&style=2','_system');
         }else{
-          this.iab.create(createName+'map/direction?origin='+this.curLat+','+this.curLng+'&destination='+this.orderItem.fromLat+','+this.orderItem.fromLng+'&mode=driving&src=io.ionic.starter.dadasos')
+          this.iab.create(createName+'map/direction?origin='+this.curLat+','+this.curLng+'&destination='+this.orderItem.fromLat+','+this.orderItem.fromLng+'&mode=driving&src=io.ionic.starter.dadasos','_system')
         }
         //  更改订单状态
       this.bomb.Bmob_Update('Order',this.orderItem.o_objectId,{status:'2'}).then(res => {

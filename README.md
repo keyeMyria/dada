@@ -18,7 +18,6 @@ ionic cordova build android --prod --release
 # 密码: 123456
 jarsigner -verbose -keystore dadasos.keystore -signedjar dadasos.apk platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk dadasos.keystore
 
-jarsigner -verbose -keystore myapp.keystore -signedjar
 
 # zipalign 需要下载并设置path
 zipalign -v 4 /Users/liwenhong/car-help/dada/dadasos.apk 哒哒救援.apk

@@ -26,11 +26,16 @@ export class MyCarPage {
   }
   getInfo(){
     this.util.startLoading()
-    this.bmob.getUserNewInfo().then((obj:any) => {
-      let uPoint = this.bmob.Bmob_CreatePoint('_User',obj.objectId);
+    this.bmob.getUserNewInfo().then(async (obj:any) => {
+      let uPoint = this.bmob.Bmob_CreatePoint('_User',obj.objectId),cObjectId;
       if(!!obj.isCompany && obj.isCompany >0){
-        console.log(1111)
-        this.bmob.Bmob_IncludeQuery('validUser',{'user':uPoint},{key:'uInfo',value:'userInfo'}).then(async(res:Array<ValidUser>) => {
+        // 查找企业ID
+        await this.bmob.Bomb_Search('company',{'user':uPoint}).then((tt:any) => {
+          if(tt.length>0){
+            cObjectId = this.bmob.Bmob_CreatePoint('company',tt[0].objectId)
+          }
+        })
+        this.bmob.Bmob_IncludeQuery('validUser',{'company':cObjectId},{key:'uInfo',value:'userInfo'}).then(async(res:Array<ValidUser>) => {
           res.length > 0 && (this.carInfo = res);
           this.util.stopLoading();
         }).catch(err => {
@@ -38,14 +43,15 @@ export class MyCarPage {
           this.util.stopLoading();
         })
       }else{
-        console.log(22)
         console.log(obj.carInfo.objectId)
-        this.bmob.Bmob_IncludeQuery('validUser',{'objectId':obj.carInfo.objectId},{key:'uInfo',value:'userInfo'}).then((res:Array<ValidUser>) => {
-          res.length > 0 && (this.carInfo = res)
-          this.util.stopLoading();
-        }).catch(err => {
-          this.util.stopLoading();
-        })
+        if(!!obj.carInfo && !!obj.carInfo.objectId){
+          this.bmob.Bmob_IncludeQuery('validUser',{'objectId':obj.carInfo.objectId},{key:'uInfo',value:'userInfo'}).then((res:Array<ValidUser>) => {
+            res.length > 0 && (this.carInfo = res)
+            this.util.stopLoading();
+          }).catch(err => {
+            this.util.stopLoading();
+          })
+        }
       }
     })
 

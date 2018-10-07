@@ -30,6 +30,10 @@ export class MePage {
     })
   }
   toPage(page){
+    if(page ==='TestPage'){
+      this.util.showToast("改功能暂未开放，敬请期待")
+      return
+    }
     this.navCtrl.push(page)
   }
 

@@ -65,6 +65,10 @@ export class CompanyPage {
       this.bmob.Bmob_Update('_User',objectId,{'isCompany': '0' }).then(res => {
         console.log('添加成功');
       })
+      //  短信通知管理员
+      this.bmob.sendSmsCode('18575501087','企业审核').then(uu => {
+
+      })
       //  跳转至待审核页
       this.navCtrl.push('ReviewPage')
 

@@ -112,6 +112,10 @@ export class AuthenticationPage {
           this.bmob.Bmob_Update('validUser',data.objectId,{'uInfo':p })
         })
       }
+      //  短信通知管理员
+      this.bmob.sendSmsCode('18575501087','车主审核').then(uu => {
+
+      })
       //  跳转至待审核页
       this.navCtrl.push('ReviewPage')
       this.util.stopLoading();

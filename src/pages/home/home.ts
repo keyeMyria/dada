@@ -129,15 +129,23 @@ export class HomePage {
       //   this.navCtrl.push('MapPage',{item: item})
       // })
     }else if(item.status === '2'){
-      //  根据当前点位置与用户的位置距离比较，大于1公里则提示不能点击，没有到达用户范围
+      //  根据当前点位置与用户的位置距离比较，大于500米则提示不能点击，没有到达用户范围
       this.util.startLoading()
       this.getLocation().then(data => {
         this.bdMap.getDistanceByPoint(this.addressInfo.latitude,this.addressInfo.longitude,item.fromLat,item.fromLng,'el').then((tt:any) => {
           this.util.stopLoading()
-          let d = parseFloat(tt.distance.replace('公里',''))
-          if(d > 1.5){
-            //  超过1公里，不能点击到达救援点
+          console.log(tt.distance)
+          let d = tt.distance
+          if(d.indexOf('公里')>=0){
             this.util.showToastWithCloseButton('未在用户故障点附近，不能点击到达救援点，请到达救援点再操作')
+            this.util.stopLoading()
+            return
+          }
+          d = (parseFloat(d.replace('米',''))/1000).toFixed(2)
+          if(d > 500){
+            //  超过500米，不能点击到达救援点
+            this.util.showToastWithCloseButton('未在用户故障点附近，不能点击到达救援点，请到达救援点再操作')
+            this.util.stopLoading()
             return
           }
           //  救援完成,提示用户是否确定完成，然后更改状态
@@ -225,11 +233,10 @@ export class HomePage {
   getInfo(){
     if(!!this.addressInfo.latitude && !!this.addressInfo.longitude){
       this.util.startLoading();
+      this.orderList = [];
       this.bomb.Bmob_QueryLocation('Order',this.addressInfo.latitude,this.addressInfo.longitude,10,'locationFrom','0',this.u_objectId).then(async(res:any) => {
-        // res.length>0 && (this.orderList = res)
         if(res.length>0){
           let tempObj;
-          this.orderList = [];
           for(let i = 0;i< res.length;i++){
             tempObj = new OrderList()
             await this.bdMap.getDistanceByPoint(this.addressInfo.latitude,this.addressInfo.longitude,res[i].locationFrom.latitude,res[i].locationFrom.longitude,'el').then((d:any) => {
