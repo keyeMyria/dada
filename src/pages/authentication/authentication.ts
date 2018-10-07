@@ -74,8 +74,9 @@ export class AuthenticationPage {
       this.util.showToast('请上传行驶证正面照')
       return
     }
+    this.util.startLoading()
     //  上传,获取当前用户信息
-    let objectId,isCompany;
+    let objectId,isCompany,tempBool = false;
     await this.bmob.getUserNewInfo().then((res:any) => {
       objectId = res.objectId;
       isCompany = res.isCompany;
@@ -87,37 +88,45 @@ export class AuthenticationPage {
      await this.bmob.Bomb_Search('company',{'user':u}).then((c:any) => {
        if(c.length > 0){
         this.user.company = this.bmob.Bmob_CreatePoint('company',c[0].objectId)
+        this.user.status = '2'
        }
      })
+      //  如果是企业的话，则注册一个车主账号，密码默认1111111
+      let d = {
+        mobile:this.user.mobile,
+        pwd: '1111111',
+        status: '1',
+        // carInfo: c,
+        nickName:this.user.realName
+      }
+      await this.bmob.register(d).then((r:any) => {
+        console.log('注册成功')
+        let p = this.bmob.Bmob_CreatePoint('userInfo',r.uObjectId)
+        this.user.uInfo = p
+        objectId = r.objectId
+        // this.bmob.Bmob_Update('validUser',data.objectId,{'uInfo':p })
+      }).catch(er =>{
+        console.log(er)
+        tempBool = true
+        this.util.stopLoading()
+        this.util.showToastWithCloseButton("添加失败，请检查手机号是否重复")
+        return
+      })
     }
-    this.util.startLoading()
+    if(tempBool) return
     // this.user.company = compay_point
     this.bmob.Bomb_Add('validUser',this.user).then(async(data:any) => {
       //  更新user信息
       let c = this.bmob.Bmob_CreatePoint('validUser',data.objectId)
       this.bmob.Bmob_Update('_User',objectId,{'carInfo': c })
-
-      //  如果是企业的话，则注册一个车主账号，密码默认1111111
-      if(!!isCompany && isCompany ==='1'){
-        let d = {
-          mobile:this.user.mobile,
-          pwd: '1111111',
-          status: '1',
-          carInfo: c,
-          nickName:this.user.realName
-        }
-        await this.bmob.register(d).then((r:any) => {
-          console.log('注册成功')
-          let p = this.bmob.Bmob_CreatePoint('userInfo',r.objectId)
-          this.bmob.Bmob_Update('validUser',data.objectId,{'uInfo':p })
-        })
-      }
       //  短信通知管理员
-      this.bmob.sendSmsCode('18575501087','车主审核').then(uu => {
-
-      })
+      this.bmob.sendSmsCode('18575501087','车主审核').then(uu => {})
+      if(!!isCompany && isCompany ==='1'){
+        this.navCtrl.pop()
+      }else{
+        this.navCtrl.push('ReviewPage')
+      }
       //  跳转至待审核页
-      this.navCtrl.push('ReviewPage')
       this.util.stopLoading();
     }).catch(err => {
       this.util.showToast('上传失败，请重新上传');

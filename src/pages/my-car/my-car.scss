@@ -37,13 +37,18 @@ page-my-car {
         padding: 10px;
       }
     }
-    .btn{
-      position: fixed;
-      bottom: 0;
-      background: #f76754;
-      color: #fff;
-      width: 100%;
-      border-radius: 0;
-    }
+
+  }
+  .scroll-content{
+    bottom:4em;
+  }
+  .btn{
+    position: fixed;
+    bottom: 0;
+    background: #f76754;
+    color: #fff;
+    width: 100%;
+    border-radius: 0;
+    z-index: 999;
   }
 }

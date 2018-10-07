@@ -127,9 +127,10 @@ export class BmobProvider {
           status: '0',
           type: '2',
           user: poiID,
-          nickName:!!data.realName?data.realName:''
+          nickName:!!data.nickName?data.nickName:''
         }
-        this.Bomb_Add('userInfo', da).then(t => {
+        this.Bomb_Add('userInfo', da).then((t:any) => {
+          res.uObjectId = t.objectId
           resolve(res)
         }).catch(err => {
           reject(err)
