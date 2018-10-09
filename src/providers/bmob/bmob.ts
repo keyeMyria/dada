@@ -11,7 +11,7 @@ export class BmobProvider {
   private debug:Boolean = true;
   constructor() {
     //  初始化bmob
-    Bmob.initialize('1245fbae9dd53f523ac14b293ee5dc60', '590809d4a7db3777c5647c2f8f17fd88')
+    Bmob.initialize('1245fbae9dd53f523ac14b293ee5dc60', '590809d4a7db3777c5647c2f8f17fd88','7231ab8e05f13a9bb6d1d3018a9b497f')
   }
   /**
    * 获取当前用户信息---登录后才有值

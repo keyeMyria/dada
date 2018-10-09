@@ -103,8 +103,11 @@ export class AuthenticationPage {
         console.log('注册成功')
         let p = this.bmob.Bmob_CreatePoint('userInfo',r.uObjectId)
         this.user.uInfo = p
+        this.user.user = this.bmob.Bmob_CreatePoint('_User',r.objectId)
         objectId = r.objectId
+        console.log('注册后。。',r.objectId)
         // this.bmob.Bmob_Update('validUser',data.objectId,{'uInfo':p })
+        this.addValidUser(r.objectId,isCompany)
       }).catch(er =>{
         console.log(er)
         tempBool = true
@@ -112,18 +115,24 @@ export class AuthenticationPage {
         this.util.showToastWithCloseButton("添加失败，请检查手机号是否重复")
         return
       })
+    }else{
+      this.addValidUser(objectId,isCompany)
     }
-    if(tempBool) return
+    // if(tempBool) return
     // this.user.company = compay_point
+
+  }
+  addValidUser(objectId,isCompany){
     this.bmob.Bomb_Add('validUser',this.user).then(async(data:any) => {
       //  更新user信息
       let c = this.bmob.Bmob_CreatePoint('validUser',data.objectId)
       this.bmob.Bmob_Update('_User',objectId,{'carInfo': c })
-      //  短信通知管理员
-      this.bmob.sendSmsCode('18575501087','车主审核').then(uu => {})
+
       if(!!isCompany && isCompany ==='1'){
         this.navCtrl.pop()
       }else{
+        //  短信通知管理员
+        this.bmob.sendSmsCode('18575501087','车主审核').then(uu => {})
         this.navCtrl.push('ReviewPage')
       }
       //  跳转至待审核页
@@ -133,7 +142,6 @@ export class AuthenticationPage {
       this.util.stopLoading();
     })
   }
-
    // 选择照片来源
    selectPhotoType(type) {
     let that = this;
