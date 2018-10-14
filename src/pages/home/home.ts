@@ -3,7 +3,7 @@ import { NavController, IonicPage, Platform} from 'ionic-angular';
 import { UtilsProvider } from "../../providers/utils/utils";
 import { BmobProvider } from "../../providers/bmob/bmob"
 import { BaiduMapProvider } from "../../providers/baidu-map/baidu-map";
-import { addressInfo, OrderList } from "../../model/dada"
+import { addressInfo, OrderList, Company } from "../../model/dada"
 
 
 @IonicPage()
@@ -75,6 +75,7 @@ export class HomePage {
    * 接受订单
    */
   async toAcceptOrder(item){
+    await this.getStatus().then(y => {})
     if(this.isCompany === '1'){
       //  是企业用户
       this.util.showToastWithCloseButton('您是企业用户，请指定车辆接单')
@@ -85,10 +86,11 @@ export class HomePage {
       this.curStatus = '0'
       return
     }
-    let objectId,curMasterStatus ;
+    let objectId,curMasterStatus,company ;
     await this.bomb.Bomb_Search('userInfo',{username:this.username}).then(data => {
       objectId = data[0].objectId
-      curMasterStatus = data[0].status
+      curMasterStatus = data[0].status,
+      company = data[0].company
     })
 
     //  已经验证过，抢单，1.验证订单状态
@@ -101,8 +103,15 @@ export class HomePage {
       this.bomb.Bmob_GetInfoByObjectId('Order',item.o_objectId).then(async(res: any) => {
         if(res.status === '0'){
           //  可以抢单,更改订单状态，以及carUser字段
-          let temp = this.bomb.Bmob_CreatePoint('userInfo',objectId)
-          this.bomb.Bmob_Update('Order',item.o_objectId,{carUser: temp,status:'1'}).then(t => {
+          // let temp = this.bomb.Bmob_CreatePoint('userInfo',objectId)
+          let p:any ={
+            carUser: this.bomb.Bmob_CreatePoint('userInfo',objectId),
+            status:'1',
+          }
+          if(!!company && company.objectId !=""){
+            p.company = company
+          }
+          this.bomb.Bmob_Update('Order',item.o_objectId,p).then(t => {
             //  抢单成功，弹出提示框，提示客户该订单有师傅接单了
             this.bomb.sendMudule(item)
           }).catch(err => {

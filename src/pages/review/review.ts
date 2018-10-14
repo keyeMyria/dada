@@ -22,6 +22,6 @@ export class ReviewPage {
     console.log('ionViewDidLoad ReviewPage');
   }
   toPage(){
-    this.navCtrl.setRoot('HomePage')
+    this.navCtrl.popAll()
   }
 }

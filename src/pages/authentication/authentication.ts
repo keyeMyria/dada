@@ -97,7 +97,9 @@ export class AuthenticationPage {
         pwd: '1111111',
         status: '1',
         // carInfo: c,
-        nickName:this.user.realName
+        nickName:this.user.realName,
+        carNumber: this.user.carNumber,
+        company: this.user.company
       }
       await this.bmob.register(d).then((r:any) => {
         console.log('注册成功')
@@ -116,6 +118,19 @@ export class AuthenticationPage {
         return
       })
     }else{
+      let d = {
+        nickName:this.user.realName,
+        carNumber: this.user.carNumber
+      },uObjId;
+      await this.bmob.Bomb_Search('userInfo',{'user':u}).then((oo:any) => {
+        if(oo.length>0){
+          uObjId = oo[0].objectId
+        }
+      })
+      //  此处应更新个人信息
+      this.bmob.Bmob_Update('userInfo',uObjId,d).then(q => {
+
+      })
       this.addValidUser(objectId,isCompany)
     }
     // if(tempBool) return

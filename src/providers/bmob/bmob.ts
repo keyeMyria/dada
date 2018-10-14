@@ -122,12 +122,16 @@ export class BmobProvider {
         //  注册成功后往userInfo表里添数据
         const pointer = Bmob.Pointer('_User')
         const poiID = pointer.set(res.objectId)
-        let da = {
+        let da:any = {
           username: data.mobile,
           status: '0',
           type: '2',
           user: poiID,
-          nickName:!!data.nickName?data.nickName:''
+          nickName:!!data.nickName?data.nickName:'',
+          carNumber: !! data.carNumber ? data.carNumber: ''
+        }
+        if(!!data.company){
+          da.company = data.company
         }
         this.Bomb_Add('userInfo', da).then((t:any) => {
           res.uObjectId = t.objectId

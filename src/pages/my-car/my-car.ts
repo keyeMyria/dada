@@ -27,6 +27,10 @@ export class MyCarPage {
   getInfo(){
     this.util.startLoading()
     this.bmob.getUserNewInfo().then(async (obj:any) => {
+      if(obj.carInfo == undefined || obj.carInfo.objectId==undefined || obj.carInfo.objectId==""){
+        this.util.stopLoading()
+        return
+      }
       let uPoint = this.bmob.Bmob_CreatePoint('_User',obj.objectId),cObjectId;
       if(!!obj.isCompany && obj.isCompany >0){
         // 查找企业ID

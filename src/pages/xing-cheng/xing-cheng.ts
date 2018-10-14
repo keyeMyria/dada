@@ -38,6 +38,9 @@ export class XingChengPage {
       console.log(objectId)
       let pointId =  this.bmob.Bmob_CreatePoint('userInfo',objectId);
       this.bmob.Bomb_Search('Order',{'carUser':pointId}).then((data:any) => {
+        for(let i =0;i<data.length;i++){
+          data[i].amount = parseInt((data[i].amount * 0.9).toFixed(2))
+        }
         this.items = data;
       })
     })
