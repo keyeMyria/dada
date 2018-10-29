@@ -13,6 +13,7 @@ import { HttpServeProvider } from '../providers/http-serve/http-serve';
 import { Camera } from '@ionic-native/camera';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { AppAvailability } from '@ionic-native/app-availability';
+import { BackgroundMode } from '@ionic-native/background-mode';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { AppAvailability } from '@ionic-native/app-availability';
     HttpModule,
     Camera,
     InAppBrowser,
-    AppAvailability
+    AppAvailability,
+    BackgroundMode
   ]
 })
 export class AppModule {}

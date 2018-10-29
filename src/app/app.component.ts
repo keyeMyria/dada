@@ -4,6 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 // import { BaiduMapProvider } from "../providers/baidu-map/baidu-map";
 import { BmobProvider } from "../providers/bmob/bmob"
+import { BackgroundMode } from '@ionic-native/background-mode';
 // declare var cordova: any;
 @Component({
   templateUrl: 'app.html'
@@ -11,9 +12,10 @@ import { BmobProvider } from "../providers/bmob/bmob"
 export class MyApp {
   rootPage:any;
   // rootPage:any = 'RegisterPage';
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public bmob: BmobProvider) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public bmob: BmobProvider,private backgroundMode: BackgroundMode) {
     platform.ready().then((readySource) => {
       statusBar.styleDefault();
+      this.backgroundMode.enable();
       setTimeout(() => {
         splashScreen.hide();
       }, 1000)
